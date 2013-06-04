@@ -169,10 +169,12 @@ $(function() {
 	}
 
 
-	var defaultStation = 'DRESDEN';
-	var locationAPIURL = 'http://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json';
-	var urlSheme = "http://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/%STATION%/W/measurements.json";
-	url = urlSheme.replace( /%STATION%/, defaultStation );
+	var
+		defaultStation = 'DRESDEN',
+		locationAPIURL = 'http://www.pegelonline.wsv.de/webservices/rest-api/v2/stations.json',
+		urlSheme = "http://www.pegelonline.wsv.de/webservices/rest-api/v2/stations/%STATION%/W/measurements.json",
+		sourceURLSheme = "http://www.pegelonline.wsv.de/gast/stammdaten?pegelnr=%ID%",
+		url = urlSheme.replace( /%STATION%/, defaultStation );
 
 	Highcharts.setOptions({
 		lang : {
@@ -191,8 +193,11 @@ $(function() {
 			var
 				select = $( '<select/>' ),
 				label  = $( '<label/>' ),
+				link   = $( '<a/>' ),
 				newOpt;
 
+			link.text( 'Stammdaten' );
+			link.attr( 'id', 'source-link' );
 			select.attr( 'id', 'location' );
 			label.attr( 'for', 'location' );
 			label.text( 'Messpunkt ' );
@@ -201,14 +206,19 @@ $(function() {
 				'change',
 				function() {
 					var
-						self = $( this ),
+						self    = $( this ),
 						station = self.val(),
+						id      = self.find( "[value='" + station + "']" ).attr( 'data-id' ),
 						newURL;
 
 					newURL = urlSheme.replace( /%STATION%/, station );
 					$( 'p.loading' ).show();
 					$( '#container' ).hide();
 
+					$( '#source-link' ).attr(
+						'href',
+						sourceURLSheme.replace( /%ID%/, id )
+					);
 					$.getJSON(
 						newURL,
 						function( data ) {
@@ -226,14 +236,21 @@ $(function() {
 				newOpt = $( '<option/>' );
 				newOpt.text( data[ i ].longname );
 				newOpt.attr( 'value', data[ i ].shortname );
-				if ( data[ i ].shortname == defaultStation )
+				newOpt.attr( 'data-id', data[ i ].number );
+				if ( data[ i ].shortname == defaultStation ) {
 					newOpt.attr( 'selected', 'selected' );
+					link.attr(
+						'href',
+						sourceURLSheme.replace( /%ID%/, data[ i ].number )
+					);
+				}
 				select.append( newOpt );
 			}
 
 			$( '#location-select' )
 				.append( label )
-				.append( select );
+				.append( select )
+				.append( $( '<p/>' ).append( link ) );
 		}
 	);
 
