@@ -12,4 +12,4 @@ Highcharts Dokumentation: http://api.highcharts.com/highcharts
 ## Mögliche Verbesserungen
  * Alle Messpunkte nach Gewässern sortiert darstellen.
  * URL-Parameter um Deeplinking auf bestimmte Punkte zu ermöglichen
-
+ * Lokaler Cache der Daten, die API ist momentan sehr Träge.
