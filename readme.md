@@ -9,4 +9,7 @@ Dieses »5-Minuten-Skript« ruft die Messwerte der [»Wasser- und Schiffahrtsver
 Daten-API: http://www.pegelonline.wsv.de/webservice/guideRestapi
 Highcharts Dokumentation: http://api.highcharts.com/highcharts
 
+## Mögliche Verbesserungen
+ * Alle Messpunkte nach Gewässern sortiert darstellen.
+ * URL-Parameter um Deeplinking auf bestimmte Punkte zu ermöglichen
 
