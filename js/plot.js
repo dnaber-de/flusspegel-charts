@@ -155,7 +155,6 @@ $(function() {
 			},
 
 			yAxis : {
-				max : 9.5,
 				labels : {
 					formatter: function() {
 						return this.value +' m';
